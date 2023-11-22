@@ -1,0 +1,14 @@
+version: '3.5'
+
+volumes:
+  postgresdata:
+  esdata:
+
+services:
+  postgres:
+    image: postgres
+    env_file: './.env'
+    volumes:
+       - postgresdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432

@@ -1,0 +1,51 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+
+  email String @unique
+
+  password String
+
+  username String
+
+  address String
+
+  phoneNumber String
+  Order       Order[]
+}
+
+model Order {
+  id String @id @default(uuid())
+
+  orderDate DateTime @default(now())
+
+  deliveryAddress String
+
+  paymentMethod PaymentMethod
+
+  userId String
+
+  status OrderStatus
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum PaymentMethod {
+  card
+  cash
+}
+
+enum OrderStatus {
+  processing
+  dispatched
+  delivered
+}
